@@ -6,12 +6,13 @@ import ytdl from "ytdl-core";
 
 const app = new Hono();
 
-app.get("/:name", async(c)  => {
+app.get("/:url", async(c)  => {
   let listOfIds = [] as string[];
   const query =
     "https://www.youtube.com/playlist?list=PLNKs8mJ6MlqAx7nqsUi6tRJFDFBJxuLiV";
 
-  let videoData = await YouTube.getPlaylist(query, { fetchAll: true });
+  let videoData = await YouTube.getPlaylist(c.req.param("url")
+    , { fetchAll: true });
   videoData.videos.forEach((video) => {
     listOfIds.push(video.id as string);
   });
